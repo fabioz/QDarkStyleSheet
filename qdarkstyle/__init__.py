@@ -31,7 +31,6 @@ with the correct rc file.
 import logging
 import platform
 
-
 __version__ = "1.16"
 
 
@@ -39,7 +38,7 @@ def _logger():
     return logging.getLogger('qdarkstyle')
 
 
-def load_stylesheet(pyside=True):
+def load_stylesheet(pyside=True, pyside6=False):
     """
     Loads the stylesheet. Takes care of importing the rc module.
 
@@ -48,19 +47,23 @@ def load_stylesheet(pyside=True):
     :return the stylesheet string
     """
     # Smart import of the rc file
-    if pyside:
+    if pyside6:
+        import qdarkstyle.pyside6_style_rc
+    elif pyside:
         import qdarkstyle.pyside_style_rc
     else:
         import qdarkstyle.pyqt_style_rc
 
     # Load the stylesheet content from resources
-    if not pyside:
-        from PyQt4.QtCore import QFile, QTextStream
-    else:
+    if pyside:
         try:
             from PySide.QtCore import QFile, QTextStream
         except:
             from PySide2.QtCore import QFile, QTextStream
+    elif pyside6:
+        from PySide6.QtCore import QFile, QTextStream
+    else:
+        from PyQt4.QtCore import QFile, QTextStream
 
     f = QFile(":qdarkstyle/style.qss")
     if not f.exists():

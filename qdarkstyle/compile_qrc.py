@@ -48,6 +48,8 @@ def compile_all():
     os.system("pyrcc5 style.qrc -o pyqt5_style_rc.py")
     print("Compiling for PySide: style.qrc -> pyside_style_rc.py")
     os.system("pyside-rcc -py3 style.qrc -o pyside_style_rc.py")
+    print("Compiling for PySide6: style.qrc -> pyside_style_rc.py")
+    os.system("pyside6-rcc style.qrc -o pyside6_style_rc.py")
 
 
 if __name__ == "__main__":
